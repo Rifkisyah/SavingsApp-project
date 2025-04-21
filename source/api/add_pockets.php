@@ -1,5 +1,5 @@
 <?php
-    include "connection.php";
+    include "../controllers/connection.php";
     session_start();
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -15,7 +15,7 @@
 
         $date = $_POST['target-date'];
         if($date){
-            $target_date = date('d-m-y', strtotime($date));
+            $target_date = date('Y-m-d', strtotime($date));
         } else {
             $_SESSION['error'] = "Tanggal Invalid";
             // echo $_SESSION['error'];
@@ -37,7 +37,7 @@
         $current_balance = 0;
 
         if(check_avaible_pocket($pocket_name)) {
-            $_SESSION['error'] = "Pocket Sudah Ada";
+            $_SESSION['error'] = "kantong Sudah Ada";
             // echo $_SESSION['error'];
             header("Location: ../pages/Beranda.php");
             exit;

@@ -1,5 +1,5 @@
 <?php
-    include "connection.php";
+    include "../controllers/connection.php";
 
     if (!isset($_SESSION['user_id'])) {
         http_response_code(401); // Unauthorized
@@ -13,4 +13,5 @@
     
     $pockets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Debug: Cek apakah $pockets berisi data
 ?>

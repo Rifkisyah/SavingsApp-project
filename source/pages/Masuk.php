@@ -9,7 +9,7 @@
 </head>
 <body class="authentication-page" onload="">
     <div class="card-item">
-        <form action="../controllers/start-auth-session.php" method="post" class="authentication-form">
+        <form action="../controllers/start_auth_session.php" method="post" class="authentication-form">
             <h1>Selamat Datang Di SavingsApp</h1>
             <hr>
             <p>Silahkan isi form dibawah untuk masuk</p>
@@ -26,6 +26,7 @@
                 echo '<p id="error-message">' . htmlspecialchars($_SESSION['error']) . '</p>';
                 unset($_SESSION['error']);
             }
+            
             ?>
             <button type="submit">Masuk</button>
             <hr>

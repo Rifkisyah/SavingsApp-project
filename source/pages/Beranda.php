@@ -1,12 +1,12 @@
 <?php
     session_start();
+
     header("Cache-Control: no-cache, no-store, must-revalidate");
     header("Pragma: no-cache");
     header("Expires: 0");
 
-    include('../controllers/session-time.php');
-    include('../controllers/load-pocket.php');
-
+    include('../controllers/session_time.php');
+    include('../api/load_pocket.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +35,7 @@
             <img src="../../assets/images/setting-icon.png" id="img-sidenav-content">
             <h3>Pengaturan</h3>
         </button>
-        <button class="sidenav-content" id="logout-btn" onclick="open_confirm_logout_modal()">
+        <button class="sidenav-content" id="logout-btn" onclick="open_modal_confirm_logout()">
             <img src="../../assets/images/logout-icon.png" id="img-sidenav-content">
             <h3>Keluar</h3>
         </button>
@@ -132,18 +132,18 @@
                     </div>
                     <div class="savings-pocket-section">
                         <h2>Kantong Uang</h2>
-                        <div class="pocket-container">
+                        <div class="pocket-container" id="pocket-container">
                         <?php if (count($pockets) === 0): ?>
                             <h1 id="blank-label">Kantong Uangmu Kosong</h1>
                         <?php else: ?>
                             <?php foreach ($pockets as $pocket): ?>
                                 <div class="pocket-card">
                                     <div class="pocket-header">
-                                        <h3 id="pocket-name-value"><?= htmlspecialchars($pocket['pocket_name']) ?></h3>
-                                        <button type="button" class="delete-pocket"><img src="../../assets/images/trashbin-icon.png" id="trashbin-icon"></button>
+                                        <h3 name="pocket_name" class="pocket-name-value"><?= htmlspecialchars($pocket['pocket_name']) ?></h3>
+                                        <button type="button" class="delete-pocket" onclick="open_modal_confirm_delete_pocket()"><img src="../../assets/images/trashbin-icon.png" id="trashbin-icon"></button>
                                     </div>
                                     <div class="progress-wrapper">
-                                        <h3 class="current-balance" id="current-balance">0</h3>
+                                        <h3 class="current-balance" id="current-balance"><?= number_format($pocket['current_amount'] ?? 0, 0, ',', '.') ?></h3>
                                         <div class="progress-container">
                                             <div class="progress-bar" id="progressBar"></div>
                                         </div>
@@ -171,12 +171,11 @@
                                                 <h2 id="modalTitle">Masukan Saldo</h2>
                                                 <input type="text" id="saldoInput" placeholder="Masukkan nominal" inputmode="numeric" pattern="Rp\. (\d{1,3})(\.\d{3})*" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                                                 <div class="modal-actions">
-                                                    <button id="confirm-btn" onclick="submitSaldo()">Simpan</button>
-                                                    <button id="cancel-btn" onclick="closeModal()">Batal</button>
+                                                    <button type="button" id="confirm-btn" onclick="submitSaldo()">Simpan</button>
+                                                    <button type="button" id="cancel-btn" onclick="closeModal()">Batal</button>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -184,7 +183,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="adds-wrapper" id="adds-wrapper">
+                <!-- <div class="adds-wrapper" id="adds-wrapper">
                     <div class="adds-container">
                         <p>pasang iklan disini</p>
                     </div>
@@ -197,7 +196,7 @@
                     <div class="adds-container">
                         <p>pasang iklan disini</p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -214,7 +213,7 @@
                 <button id="close-btn" onclick="close_pocket_modal()">X</button>
             </div>
             
-            <form class="modal-content" action="../controllers/add_pockets.php" method="post" onsubmit="return validateCategorySelection();">
+            <form class="modal-content" action="../api/add_pockets.php" method="post" onsubmit="return validateCategorySelection();">
                 <div class="pocket-name-container">
                     <h3>Nama Kantong:</h3>
                     <input type="text" id="pocket-name" name="pocket-name" placeholder="Masukan Nama Kantong..." inputmode="text" pattern="^[a-zA-Z0-9 ]+$" oninput="this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, '')"  required>
@@ -273,20 +272,31 @@
             </form>
         </div>
     </div>
-    <div id="confirmModal" class="modal-overlay">
+    <div id="modal-confirm-logout" class="modal-overlay">
         <div class="modal-box">
             <h2 class="modal-title">Konfirmasi</h2>
-            <p class="modal-message">Apakah kamu yakin ingin melanjutkan tindakan ini?</p>
+            <p class="modal-message">Apakah kamu yakin ingin Keluar?</p>
             <div class="modal-buttons">
-                <button class="btn-cancel" onclick="close_confirm_logout_modal()">Batal</button>
+                <button class="btn-cancel" onclick="close_modal_confirm_logout()">Batal</button>
                 <button class="btn-confirm" onclick="confirm_logout()">Ya, Lanjutkan</button>
             </div>
         </div>
     </div>
-    <script src="../scripts/nominal-format.js"></script>
+    <div id="modal-confirm-delete-pocket" class="modal-overlay">
+        <div class="modal-box">
+            <h2 class="modal-title">Konfirmasi</h2>
+            <p class="modal-message">Apakah kamu yakin ingin Menghapus Kantong ini?</p>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="close_modal_confirm_delete_pocket()">Batal</button>
+                <button class="btn-confirm" onclick="confirm_delete_pocket()">Ya, Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+    <script src="../scripts/delete_pocket.js"></script>
+    <script src="../scripts/nominal_format.js"></script>
     <script src="../scripts/carousel.js"></script>
-    <script src="../scripts/progress-bar.js"></script>
-    <script src="../scripts/pockets-category-listener.js"></script>
+    <script src="../scripts/progress_bar.js"></script>
+    <script src="../scripts/pockets_category_listener.js"></script>
     <script src="../scripts/logout.js"></script>
     <script src="../scripts/interface.js"></script>
 </body>

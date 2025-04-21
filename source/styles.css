@@ -889,9 +889,9 @@ body {
     background-color: #f6ffba;
     border-radius: 10px;
     display: grid;
-    grid-template-columns: repeat(4, 30vh);
+    grid-template-columns: repeat(3, 40vh);
     grid-auto-flow: dense;
-    grid-template-rows: fit-content 200px;
+    grid-template-rows: fit-content;
     padding: 10px;
     gap: 10px;
     height: fit-content;
@@ -925,6 +925,9 @@ body {
     width: 30vh;
     height: 3vh;
     font-size: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #trashbin-icon {
@@ -1115,7 +1118,7 @@ input[type=number] {
 }
 
 /* Modal overlay */
-#confirmModal {
+#modal-confirm-logout, #modal-confirm-delete-pocket {
     display: none; /* ubah jadi flex jika ingin tampil */
     position: fixed;
     top: 0;
@@ -1261,11 +1264,18 @@ input[type=number] {
 .pocket-action-btn #confirm-btn {
     background-color: #07401f;
     color: #f6ffba;
+    border-radius: 20px;
 }
 
 .pocket-action-btn #cancel-btn {
     background-color: #e74c3c;
     color: #f6ffba;
+    border-radius: 20px;
+}
+
+#confirm-btn:hover, #cancel-btn:hover {
+    background-color: #ffffff;
+    color: #000;
 }
 
 #saldoInput {
@@ -1273,8 +1283,6 @@ input[type=number] {
 }
 
 .delete-pocket, 
-.add-balance, 
-.withdraw-balance, 
 #saldoInput,
 #confirm-btn,
 #cancel-btn,
@@ -1302,6 +1310,11 @@ input[type=number] {
 #target-date,
 #category-btn,
 #submit-btn,
-#close-btn {
+#close-btn,
+.summary,
+.chart,
+.filter-chart,
+.pocket-search-section,
+.savings-pocket-section {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 1.0);
 }

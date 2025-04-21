@@ -9,7 +9,7 @@
 </head>
 <body class="authentication-page">
     <div class="card-item">
-        <form method="post" action="../controllers/start-auth-session.php" class="authentication-form">
+        <form method="post" action="../controllers/start_auth_session.php" class="authentication-form">
             <h1>Selamat Datang Di SavingsApp</h1>
             <hr>
             <p>Silahkan isi form dibawah untuk Mendaftar</p>

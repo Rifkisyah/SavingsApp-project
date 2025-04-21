@@ -3,14 +3,14 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$session_timeout = 900; // dalam detik
+$session_timeout = 1600; // dalam detik
 
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $session_timeout) {
     // Sesi kadaluwarsa
     session_unset();
     session_destroy();
     session_regenerate_id(true);
-    header("Location: ../pages/Masuk.php?error=" . urlencode("Sesi Anda telah berakhir, Silakan login kembali"));
+    header("Location: ../pages/Masuk.php");
     exit;
 }
 
