@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$session_timeout = 1600; // dalam detik
+$session_timeout = 100000; // dalam detik
 
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $session_timeout) {
     // Sesi kadaluwarsa

@@ -8,7 +8,7 @@
     include('../controllers/session_time.php');
     include('../api/load_pocket.php');
 ?>
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -54,23 +54,29 @@
         <div class="main">
             <div class="content">
                 <div class="primary-content" id="primary-content">
-                    <div class="summary">
-                        <h2>Ringkasan Keuangan</h2>
+                    <div class="summary" id="summary-container">
+                        <h2>selamat datang <?php echo $_SESSION['username'] ?>, Ini Ringkasan Keuanganmu</h2>
                         <div class="flex-balance">
                             <div class="total-balance">
-                                <h3>Total Saldo Bulan ini</h3><hr>
-                                <P class="summary-curency">1.000</P>
+                                <h3>Total Uang Bulan ini</h3><hr>
+                                <?php ?>
+                                    <p name="pocket_name" id="total-summary" class="summary-curency"><?= htmlspecialchars($_SESSION['total']) ?></>
+                                <?php ?>
                                 <div class="transaction">
                                     <button class="history-transaction-btn">Lihat Riwayat Transaksi Bulan ini</button>
                                 </div>
                             </div>
                             <div class="incoming-balance">
                                 <h3>Saldo Masuk</h3><hr>
-                                <p class="summary-curency">500</p>
+                                <?php ?>
+                                    <p name="pocket_name" id="incoming-summary" class="summary-curency"><?= htmlspecialchars($_SESSION['incoming']) ?></>
+                                <?php ?>
                             </div>
                             <div class="outgoing-balance">
                                 <h3>Saldo Keluar</h3><hr>
-                                <p class="summary-curency">500</p>
+                                <?php ?>
+                                    <p name="pocket_name" id="outgoing-summary" class="summary-curency"><?= htmlspecialchars($_SESSION['outgoing']) ?></>
+                                <?php ?>
                             </div>
                         </div>
                     </div>
@@ -106,9 +112,11 @@
                                     <button id="prev-button">←</button>
                                     <div class="carousel-wrapper">
                                         <div class="slide-container">
-                                            <div class="slide">pocket 1</div>
-                                            <div class="slide">pocket 2</div>
-                                            <div class="slide">pocket 2</div>
+                                            <?php foreach ($pockets as $pocket): ?>
+                                            <div class="slide">
+                                                <h3 name="pocket_name" class="pocket-name-value"><?= htmlspecialchars($pocket['pocket_name']) ?></h3>
+                                            </div>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div>
                                     <button id="next-button">→</button>
@@ -297,7 +305,6 @@
     <script src="../scripts/carousel.js"></script>
     <script src="../scripts/progress_bar.js"></script>
     <script src="../scripts/pockets_category_listener.js"></script>
-    <script src="../scripts/logout.js"></script>
-    <script src="../scripts/interface.js"></script>
+    <script src="../scripts/interface.js" defer></script>
 </body>
 </html>

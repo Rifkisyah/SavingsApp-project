@@ -1,56 +1,96 @@
 <?php
-include '../controllers/connection.php';
 session_start();
+error_log("SESSION ID: " . session_id());
+error_log("SESSION DATA: " . print_r($_SESSION, true));
+require '../controllers/connection.php'; // koneksi ke DB (PDO)
 
-// Cek apakah user sudah login
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
-    exit;
-}
-
-// Ambil data JSON yang dikirimkan dari frontend
-$data = json_decode(file_get_contents('php://input'), true);
-
-// Cek apakah data pocket dan balance ada
+$data = json_decode(file_get_contents("php://input"), true);
 $pocket = $data['pocket'] ?? null;
 $balance = $data['balance'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null;
 
-if (!$pocket || $balance === null) {
-    echo json_encode(['success' => false, 'message' => 'Data tidak lengkap']);
+if (!$pocket || $balance === null || !$user_id) {
+    echo json_encode(['success' => false, 'message' => 'Data tidak lengkap.']);
     exit;
 }
 
-// Cek apakah balance valid (harus angka dan lebih dari 0)
-if (!is_numeric($balance) || $balance < 0) {
-    echo json_encode(['success' => false, 'message' => 'Saldo harus berupa angka yang valid dan tidak negatif']);
+// Ambil saldo lama dari pocket berdasarkan nama dan user_id
+$stmt = $conn->prepare("SELECT current_amount FROM pockets WHERE pocket_name = ? AND user_id = ?");
+$stmt->execute([$pocket, $user_id]);
+$oldData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$oldData) {
+    // Pocket tidak ditemukan atau bukan milik user ini —> Hapus session ringkasan
+    $_SESSION['incoming'] = 0;
+    $_SESSION['outgoing'] = 0;
+    $_SESSION['total'] = 0;
+    echo json_encode([
+        'success' => false,
+        'message' => 'Kantong tidak ditemukan. Session telah dibersihkan.',
+        'incoming' => 0,
+        'outgoing' => 0,
+        'total' => 0
+    ]);
     exit;
 }
 
-// Cek apakah koneksi database berhasil
-if (!$conn) {
-    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
-    exit;
+$oldBalance = $oldData['current_amount'] ?? 0;
+
+// Hitung selisih
+$incoming = $outgoing = 0;
+if ($balance > $oldBalance) {
+    $incoming = $balance - $oldBalance;
+} elseif ($balance < $oldBalance) {
+    $outgoing = $oldBalance - $balance;
 }
+$total = $incoming - $outgoing;
 
-// Cek apakah kantong dengan pocket_name ada di database
-$query = "SELECT * FROM pockets WHERE pocket_name = ?";
-$stmt = $conn->prepare($query);
-$stmt->execute([$pocket]);
-$pocketExists = $stmt->fetch(PDO::FETCH_ASSOC);
+// Update saldo di pockets
+$stmt = $conn->prepare("UPDATE pockets SET current_amount = ? WHERE pocket_name = ? AND user_id = ?");
+$stmt->execute([$balance, $pocket, $user_id]);
 
-if (!$pocketExists) {
-    echo json_encode(['success' => false, 'message' => 'Pocket tidak ditemukan']);
-    exit;
-}
+// Cek apakah user_id sudah ada di pocket_summary
+$stmt = $conn->prepare("SELECT * FROM pocket_summary WHERE user_id = ?");
+$stmt->execute([$user_id]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Misalnya kamu punya kolom `current_balance` di tabel `pockets`
-$stmt = $conn->prepare("UPDATE pockets SET current_amount = ? WHERE pocket_name = ?");
-$stmt->execute([$balance, $pocket]);
+if ($row) {
+    if ($incoming > 0 || $outgoing > 0) {
+        $newIncoming = $row['incoming_balance'] + $incoming;
+        $newOutgoing = $row['outgoing_balance'] + $outgoing;
+        $newTotal = $newIncoming - $newOutgoing;
 
-// Cek apakah ada baris yang terpengaruh
-if ($stmt->rowCount() > 0) {
-    echo json_encode(['success' => true, 'message' => 'Saldo berhasil diperbarui']);
+        $stmt = $conn->prepare("UPDATE pocket_summary SET incoming_balance = ?, outgoing_balance = ?, total_balance = ? WHERE user_id = ?");
+        $stmt->execute([$newIncoming, $newOutgoing, $newTotal, $user_id]);
+
+        $_SESSION['incoming'] = $newIncoming;
+        $_SESSION['outgoing'] = $newOutgoing;
+        $_SESSION['total'] = $newTotal;
+    } else {
+        $_SESSION['incoming'] = $row['incoming_balance'];
+        $_SESSION['outgoing'] = $row['outgoing_balance'];
+        $_SESSION['total'] = $row['total_balance'];
+    }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Nilai saldo tidak berubah atau ada kesalahan']);
+    if ($incoming > 0 || $outgoing > 0) {
+        $stmt = $conn->prepare("INSERT INTO pocket_summary (user_id, total_balance, incoming_balance, outgoing_balance) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$user_id, $total, $incoming, $outgoing]);
+
+        $_SESSION['incoming'] = $incoming;
+        $_SESSION['outgoing'] = $outgoing;
+        $_SESSION['total'] = $total;
+    } else {
+        $_SESSION['incoming'] = 0;
+        $_SESSION['outgoing'] = 0;
+        $_SESSION['total'] = 0;
+    }
 }
+
+// Kirim respons ke frontend termasuk session yang baru
+echo json_encode([
+    'success' => true,
+    'incoming' => $_SESSION['incoming'],
+    'outgoing' => $_SESSION['outgoing'],
+    'total' => $_SESSION['total']
+]);
 ?>

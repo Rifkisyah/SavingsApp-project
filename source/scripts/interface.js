@@ -59,8 +59,24 @@ function close_modal_confirm_logout() {
 }
 
 function confirm_logout() {
-    close_confirm_logout_modal();
+    close_modal_confirm_logout();
     logout();
+}
+
+function logout(){
+    fetch("../controllers/logout.php", {
+        method: "POST"
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = "../../public/index.php";
+        } else {
+            console.error("Logout gagal");
+        }
+    })
+    .catch(error => {
+        console.error("Terjadi kesalahan:", error);
+    });
 }
 
 function open_modal_confirm_delete_pocket(){
@@ -94,4 +110,18 @@ document.addEventListener('DOMContentLoaded', () => {
         progressEl.classList.add('bg-success');
       }
     });
-  });
+});
+   
+// document.getElementById('delayedLink').addEventListener('click', function(e) {
+//     e.preventDefault(); // Mencegah link langsung jalan
+
+//     const targetUrl = this.href; // Simpan URL tujuan
+
+//     // Opsional: tampilkan animasi loading
+//     this.textContent = 'Tunggu bentar...';
+
+//     // Delay 2 detik sebelum redirect
+//     setTimeout(() => {
+//       window.location.href = targetUrl;
+//     }, 5000);
+//   });

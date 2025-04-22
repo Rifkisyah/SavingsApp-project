@@ -9,7 +9,7 @@
 </head>
 <body class="authentication-page" onload="">
     <div class="card-item">
-        <form action="../controllers/start_auth_session.php" method="post" class="authentication-form">
+        <form action="../api/start_auth_session.php" method="post" class="authentication-form">
             <h1>Selamat Datang Di SavingsApp</h1>
             <hr>
             <p>Silahkan isi form dibawah untuk masuk</p>
@@ -31,7 +31,7 @@
             <button type="submit">Masuk</button>
             <hr>
             <div class="suggest">
-                <p>Belum Punya Akun?</p><a href="daftar.php">Daftar Disini</a>
+                <p>Belum Punya Akun?</p><a href="daftar.php" id="delayLink">Daftar Disini</a>
             </div>
         </form>
     </div>

@@ -7,9 +7,9 @@
         exit;
     }
 
-    $query = "SELECT * FROM pockets";
+    $query = "SELECT * FROM pockets WHERE user_id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->execute();
+    $stmt->execute([$_SESSION['user_id']]);
     
     $pockets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
