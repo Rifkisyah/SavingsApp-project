@@ -1,8 +1,8 @@
 const monthLabels = ["Jan", "Feb", "Mar", "Apr", "Mei", "Juni", "Juli", "Agu", "Sep", "Okt", "Nov", "Des"];
 const minBalance = 0;
 const maxBalance = 10000000;
-const incomingBalance = [500000, 1000000, 800000];
-const outgoingBalance = [300000, 400000, 200000];
+const incomingBalance = [];
+const outgoingBalance = [];
 
 const canvas = document.getElementById('chart-canvas');
 const chart = new Chart(canvas, {
