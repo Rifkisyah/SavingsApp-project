@@ -9,7 +9,7 @@
             $pocket_id = bin2hex(random_bytes(4));
         } while (check_avaible_pocketId($pocket_id));
 
-        $pocket_name = $_POST['pocket-name'];
+        $pocket_name = trim(strtolower($_POST['pocket-name']));
 
         $target_nominal = preg_replace('/[^0-9]/', '', $_POST['target-nominal']);
 
@@ -38,7 +38,7 @@
 
         if(check_avaible_pocket($pocket_name)) {
             $_SESSION['error'] = "kantong Sudah Ada";
-            // echo $_SESSION['error'];
+            $_SESSION['pocket_name_error'] = true;
             header("Location: ../pages/Beranda.php");
             exit;
         } else {
@@ -63,9 +63,9 @@
     }
     function check_avaible_pocket($pocket_name){
         global $conn;
-        $stmt = $conn->prepare("SELECT COUNT(*) FROM pockets WHERE pocket_name=?");
+        $stmt = $conn->prepare("SELECT * FROM pockets WHERE pocket_name=?");
         $stmt->execute([$pocket_name]);
-    
-        return $stmt->fetchColumn() > 0;
+        
+        return $stmt->rowCount() > 0;
     }
 ?>

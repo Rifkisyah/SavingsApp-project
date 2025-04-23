@@ -8,7 +8,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if($action == "daftar"){
         $uid;
         $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $raw_password = $_POST['password'];
+
         do {
             $uid = bin2hex(random_bytes(4));
         } while (check_avaible_uid($uid));
@@ -26,6 +27,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_SESSION['error'] = "Email hanya boleh mengandung huruf, angka, titik (.), underscore (_) dan satu @";
             header("Location: ../pages/Daftar.php");
             exit;
+        }
+
+        if(strlen($raw_password) < 5 ){
+            $_SESSION['error'] = "Password Terlalu Pendek";
+            header("Location: ../pages/Daftar.php");
+            exit;
+        } else {
+            $password = password_hash($raw_password, PASSWORD_DEFAULT);
         }
 
         $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");

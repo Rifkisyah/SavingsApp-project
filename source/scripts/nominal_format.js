@@ -68,14 +68,14 @@ function formatRupiah(num) {
   return 'Rp. ' + formatted.split('').reverse().join('');
 }
 
-let currentBalance = document.querySelectorAll('.current-balance');
-currentBalance.forEach(el => {
+let total_balance = document.querySelectorAll('.summary-curency');
+total_balance.forEach(el => {
   let num = el.innerText;
   el.innerText = formatRupiah(num);
 });
 
-let total_balance = document.querySelectorAll('.summary-curency');
-total_balance.forEach(el => {
+let currentBalance = document.querySelectorAll('.current-balance');
+currentBalance.forEach(el => {
   let num = el.innerText;
   el.innerText = formatRupiah(num);
 });

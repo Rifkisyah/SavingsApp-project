@@ -2,7 +2,6 @@ function toggle_side_nav(){
     const sidenav = document.getElementById('side-nav');
     const content = document.getElementById('wrapper-content');
     const topnav_content = document.getElementById('topnav-content');
-    const adds = document.getElementById('adds-wrapper');
     const prim = document.getElementById('primary-content');
     const cpyrg = document.getElementById('copyright');
 
@@ -10,28 +9,30 @@ function toggle_side_nav(){
     const isClosed = currentWidth === "0px";
 
     sidenav.style.width = isClosed ? "fit-content" : "0";
-    content.style.marginLeft = isClosed ? "38vh" : "0";
-    prim.style.paddingLeft = isClosed ? "0" : "30vh";
-    topnav_content.style.marginLeft = isClosed ? "90vh" : "128vh";
-    adds.style.display = isClosed ? "none" : "flex";
-    prim.style.marginRight = isClosed ? "55vh" : "0";
-    cpyrg.style.marginLeft = isClosed ? "60vh" : "80vh";
+    
+    // Konten utama akan auto-center jika margin auto kiri-kanan
+    content.style.marginLeft = isClosed ? "auto" : "250px"; 
+    content.style.marginRight = isClosed ? "auto" : "0";
+
+    // Optional adjustment kalau prim masih digunakan
+    prim.style.paddingLeft = "0";
+    prim.style.marginRight = isClosed ? "11%" : "5%";
+
+    // Top nav tombol tambah pocket bisa tetap rata kanan
+    topnav_content.style.marginLeft = isClosed ? "auto" : "127vh";
+    
+    cpyrg.style.paddingLeft = isClosed ? "30vw" : "40vw";
 }
+
 
 function filterInput(input){
     input.value = input.value.replace(/[^0-9.-]/g, '');
 }
 
-function check_pocket_modal() {
-    const overlay = document.getElementById('gradient-overlay');
-    const category = document.getElementById('category-modal');
-    const pocket = document.getElementById('pocket-modal');
-
-    const isHidden = overlay.style.display === "none" || overlay.style.display === "";
-
-    overlay.style.display = isHidden ? "flex" : "none";
-    category.style.display = isHidden ? "block" : "none";
-    pocket.style.display = isHidden ? "flex" : "none";
+function open_pocket_modal() {
+    document.getElementById('gradient-overlay').style.display = "flex";
+    document.getElementById('category-modal').style.display = "block";
+    document.getElementById('pocket-modal').style.display = "flex";
 }
 
 function show_password(){
@@ -44,11 +45,15 @@ function show_password(){
 }
 
 function close_pocket_modal(){
+    document.getElementById('gradient-overlay').style.display = "none";
+    document.getElementById('category-modal').style.display = "none";
+    document.getElementById('pocket-modal').style.display = "none";
+
     document.getElementById('pocket-name').value = "";
     document.getElementById('target-nominal').value = "";
     document.getElementById('target-date').value = "";
     document.getElementById('selected-category').value = "";
-    check_pocket_modal();
+    document.getElementById('error-message').style.display = "none";
 }
 
 function open_modal_confirm_logout() {
@@ -111,17 +116,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 });
-   
-// document.getElementById('delayedLink').addEventListener('click', function(e) {
-//     e.preventDefault(); // Mencegah link langsung jalan
 
-//     const targetUrl = this.href; // Simpan URL tujuan
+function loadEmptylabel() {
+    const pocketContainer = document.getElementById('pocket-container');
+    const blank = document.getElementById('blank-label');
+    if (!blank || !pocketContainer) {
+      console.warn("Elemen 'blank-label' atau 'pocket-container' tidak ditemukan.");
+      return;
+    }
+  
+    const pockets = pocketContainer.querySelectorAll('.pocket-card');
+    blank.style.display = pockets.length === 0 ? 'grid' : 'none';
+}
+  
 
-//     // Opsional: tampilkan animasi loading
-//     this.textContent = 'Tunggu bentar...';
+document.addEventListener('DOMContentLoaded', loadEmptylabel);
 
-//     // Delay 2 detik sebelum redirect
-//     setTimeout(() => {
-//       window.location.href = targetUrl;
-//     }, 5000);
-//   });
+
+function goToCategory(category) {
+    const encoded = encodeURIComponent(category);
+    window.location.href = `../pages/category_opened.php?category=${encoded}`;
+}

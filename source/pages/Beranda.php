@@ -8,7 +8,7 @@
     include('../controllers/session_time.php');
     include('../api/load_pocket.php');
 ?>
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,25 +16,29 @@
     <title>SavingsApp - Beranda</title>
     <link rel="icon" href="../../assets/images/mini-icon-dummy.png">
     <link rel="stylesheet" href="../styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/chart.umd.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/chart.umd.min.js"></script> -->
 </head>
 <body>
     <div class="side-nav" id="side-nav">
         <div class="logo">
             <img src="../../assets/images/mini-icon-dummy.png" id="img-logo"><p>avingsApp</p>
         </div>
-        <button class="profile-section">
+        <button class="profile-section" onclick="location.href='profile.php'">
             <img src="../../assets/images/default-photo-profile.png" id="img-profile">
             <h2>Cek Profil</h2>
         </button>
-        <button class="sidenav-content">
+        <button class="sidenav-content" onclick="location.href='Beranda.php'">
+            <img src="../../assets/images/dashboard-icon.png" id="img-sidenav-content">
+            <h3>Beranda</h3>
+        </button>
+        <button class="sidenav-content" onclick="location.href='category.php'">
             <img src="../../assets/images/category-icon.png" id="img-sidenav-content">
             <h3>Kategori</h3>
-        </butt>
-        <button class="sidenav-content">
+        </button>
+        <!-- <button class="sidenav-content">
             <img src="../../assets/images/setting-icon.png" id="img-sidenav-content">
             <h3>Pengaturan</h3>
-        </button>
+        </button> -->
         <button class="sidenav-content" id="logout-btn" onclick="open_modal_confirm_logout()">
             <img src="../../assets/images/logout-icon.png" id="img-sidenav-content">
             <h3>Keluar</h3>
@@ -46,8 +50,8 @@
                 <span onclick="toggle_side_nav()">☰</span>
                 <h1>Beranda</h1>
                 <div class="topnav-content" id="topnav-content">
-                    <button class="new-pocket-btn" onclick="check_pocket_modal()">+ Kantong Baru</button>
-                    <button class="notif-btn"><img src="../../assets/images/notification-icon.png" class="notification-icons"></img></button>
+                    <button class="new-pocket-btn" onclick="open_pocket_modal()">+ Kantong Baru</button>
+                    <!-- <button class="notif-btn"><img src="../../assets/images/notification-icon.png" class="notification-icons"></img></button> -->
                 </div>
             </div>
         </div>
@@ -58,29 +62,28 @@
                         <h2>selamat datang <?php echo $_SESSION['username'] ?>, Ini Ringkasan Keuanganmu</h2>
                         <div class="flex-balance">
                             <div class="total-balance">
-                                <h3>Total Uang Bulan ini</h3><hr>
+                                <h3>Total Uang</h3><hr>
                                 <?php ?>
-                                    <p name="pocket_name" id="total-summary" class="summary-curency"><?= htmlspecialchars($_SESSION['total']) ?></>
-                                <?php ?>
-                                <div class="transaction">
+                                    <p id="total-summary" class="summary-curency"></p>
+                                <!-- <div class="transaction">
                                     <button class="history-transaction-btn">Lihat Riwayat Transaksi Bulan ini</button>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="incoming-balance">
                                 <h3>Saldo Masuk</h3><hr>
                                 <?php ?>
-                                    <p name="pocket_name" id="incoming-summary" class="summary-curency"><?= htmlspecialchars($_SESSION['incoming']) ?></>
+                                    <p id="incoming-summary" class="summary-curency"></p>
                                 <?php ?>
                             </div>
                             <div class="outgoing-balance">
                                 <h3>Saldo Keluar</h3><hr>
                                 <?php ?>
-                                    <p name="pocket_name" id="outgoing-summary" class="summary-curency"><?= htmlspecialchars($_SESSION['outgoing']) ?></>
+                                    <p id="outgoing-summary" class="summary-curency"></p>
                                 <?php ?>
                             </div>
                         </div>
                     </div>
-                    <div class="chart-section">
+                    <!-- <div class="chart-section">
                         <div class="chart">
                             <h2>Grafik Keuangan</h2>
                             <div class="flex-chart">
@@ -101,10 +104,10 @@
     
                                 <h4>Jumlah Digit :</h4>
                                 <div class="filter-number-of-digits-chart">
-                                    <button class="filter-btn">4 Digit</button>
-                                    <button class="filter-btn">5 Digit</button>
-                                    <button class="filter-btn">6 Digit</button>
-                                    <button class="filter-btn">7 Digit</button>
+                                <button class="filter-btn 6_digits" id="filter-btn">Ratus Ribuan</button>
+                                <button class="filter-btn 7_digits" id="filter-btn">Jutaan</button>
+                                <button class="filter-btn 8_digits" id="filter-btn">Puluhan Juta</button>
+                                <button class="filter-btn 9_digits" id="filter-btn">Ratus Jutaan</button>
                                 </div>
     
                                 <h4>Kantong Uang :</h4>
@@ -123,16 +126,16 @@
                                 </div>
     
                                 <div class="flex-filter-button">
-                                    <button class="filter-btn">Save</button>
-                                    <button class="filter-btn">Reset</button>
+                                    <button id="apply-filter-btn" onclick="changeDigit()">Simpan Filter</button>
                                 </div>
                             </fieldset>
                         </div>
-                    </div><hr class="section-divider">
+                    </div> -->
+                    <hr class="section-divider">
                     <div class="pocket-search-section">
-                        <button id="search-filter">
+                        <!-- <button id="search-filter">
                             <img src="../../assets/images/filter-icon.png" id="img-filter">
-                        </button>
+                        </button> -->
                         <input type="text" placeholder="Cari Kantong Uang..." id="search-bar">
                         <button id="search-button">
                             <img src="../../assets/images/search-icon.png" id="img-search">
@@ -207,12 +210,12 @@
                 </div> -->
             </div>
         </div>
-
         <div class="footer">
             <div class="footer-content">
                 <p id="copyright">&copy; <?php echo date("Y");?> SavingsApp, Semua Hak Dilindungi</p>
             </div>
         </div>
+    </div>
     </div>
     <div class="gradient-overlay" id="gradient-overlay">
         <div class="pocket-modal-container">
@@ -220,7 +223,17 @@
                 <h2>Tambah Kantong Baru</h2>
                 <button id="close-btn" onclick="close_pocket_modal()">X</button>
             </div>
-            
+            <span id="pocket-name-error"></span>
+                <?php if(isset($_SESSION['pocket_name_error']) && $_SESSION['pocket_name_error']): ?>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        open_pocket_modal(); // panggil JS untuk buka modal
+                        document.getElementById('pocket-name-error').innerText = "Nama kantong sudah digunakan!";
+                        document.getElementById('pocket-name-error').style.display = "flex";
+                    });
+                </script>
+                <?php unset($_SESSION['pocket_name_error']); ?>
+            <?php endif; ?>
             <form class="modal-content" action="../api/add_pockets.php" method="post" onsubmit="return validateCategorySelection();">
                 <div class="pocket-name-container">
                     <h3>Nama Kantong:</h3>
@@ -300,9 +313,11 @@
             </div>
         </div>
     </div>
+    <!-- <script src="../scripts/chart.js"></script> -->
+    <script src="../scripts/get_user_summary.js"></script>
     <script src="../scripts/delete_pocket.js"></script>
     <script src="../scripts/nominal_format.js"></script>
-    <script src="../scripts/carousel.js"></script>
+    <!-- <script src="../scripts/carousel.js"></script> -->
     <script src="../scripts/progress_bar.js"></script>
     <script src="../scripts/pockets_category_listener.js"></script>
     <script src="../scripts/interface.js" defer></script>

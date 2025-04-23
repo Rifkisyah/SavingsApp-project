@@ -68,7 +68,7 @@ function ToDatabase(pocket_name) {
     // Hapus elemen dari tampilan
     if (currentCard) {
       currentCard.remove();
-      document.getElementById('pocket-container').append(blank);
+      loadEmptylabel();
     } 
 
     // Tutup modal
