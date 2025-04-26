@@ -63,8 +63,8 @@
     }
     function check_avaible_pocket($pocket_name){
         global $conn;
-        $stmt = $conn->prepare("SELECT * FROM pockets WHERE pocket_name=?");
-        $stmt->execute([$pocket_name]);
+        $stmt = $conn->prepare("SELECT * FROM pockets WHERE pocket_name=? AND user_id=?");
+        $stmt->execute([[$pocket_name], $_SESSION['user_id']]);
         
         return $stmt->rowCount() > 0;
     }

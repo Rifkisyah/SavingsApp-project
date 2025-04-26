@@ -1,27 +1,26 @@
 function toggle_side_nav(){
     const sidenav = document.getElementById('side-nav');
     const content = document.getElementById('wrapper-content');
+    const content_dashboard_footer = document.getElementById('dashboard-footer-content');
+    const content_category = document.getElementById('pocket-page-category-container');
     const topnav_content = document.getElementById('topnav-content');
     const prim = document.getElementById('primary-content');
-    const cpyrg = document.getElementById('copyright');
+    const topnav_category = document.getElementById('category-topnav-content');
+    // const cpyrg = document.getElementById('copyright');
 
     const currentWidth = getComputedStyle(sidenav).width;
     const isClosed = currentWidth === "0px";
 
     sidenav.style.width = isClosed ? "fit-content" : "0";
-    
-    // Konten utama akan auto-center jika margin auto kiri-kanan
-    content.style.marginLeft = isClosed ? "auto" : "250px"; 
-    content.style.marginRight = isClosed ? "auto" : "0";
 
-    // Optional adjustment kalau prim masih digunakan
-    prim.style.paddingLeft = "0";
-    prim.style.marginRight = isClosed ? "11%" : "5%";
-
-    // Top nav tombol tambah pocket bisa tetap rata kanan
-    topnav_content.style.marginLeft = isClosed ? "auto" : "127vh";
-    
-    cpyrg.style.paddingLeft = isClosed ? "30vw" : "40vw";
+    content.style.marginLeft = isClosed ? "19.5%" : "0"; 
+    content.style.marginRight = isClosed ? "0" : "0";
+    prim.style.paddingLeft = isClosed ? "0" : "15%";
+    // prim.style.marginRight = isClosed ? "11%" : "5%";
+    topnav_content.style.marginLeft = isClosed ? "52%" : "70%";
+    content_dashboard_footer.style.paddingLeft = isClosed ? "50%" : "40%";
+    content_category.style.marginLeft = isClosed ? "0" : "0";
+    topnav_category.style.marginLeft = isClosed ? "40%" : "50%";
 }
 
 

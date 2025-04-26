@@ -27,11 +27,11 @@
             <h2>Cek Profil</h2>
         </button>
         <button class="sidenav-content" onclick="location.href='Beranda.php'">
-            <img src="../../assets/images/category-icon.png" id="img-sidenav-content">
+            <img src="../../assets/images/dashboard-icon.png" id="img-sidenav-content">
             <h3>Beranda</h3>
         </button>
         <button class="sidenav-content" onclick="location.href='category.php'">
-            <img src="../../assets/images/dashboard-icon.png" id="img-sidenav-content">
+            <img src="../../assets/images/category-icon.png" id="img-sidenav-content">
             <h3>Kategori</h3>
         </button>
         <button class="sidenav-content" id="logout-btn" onclick="open_modal_confirm_logout()">
@@ -59,8 +59,8 @@
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <div class="footer-content">
+        <div class="profile-footer" id="profie-footer">
+            <div class="profile-footer-content" id="profile-footer-content">
                 <p id="copyright">&copy; <?php echo date("Y");?> SavingsApp, Semua Hak Dilindungi</p>
             </div>
         </div>

@@ -132,15 +132,15 @@
                         </div>
                     </div> -->
                     <hr class="section-divider">
-                    <div class="pocket-search-section">
-                        <!-- <button id="search-filter">
+                    <!-- <div class="pocket-search-section">
+                        <button id="search-filter">
                             <img src="../../assets/images/filter-icon.png" id="img-filter">
-                        </button> -->
+                        </button>
                         <input type="text" placeholder="Cari Kantong Uang..." id="search-bar">
                         <button id="search-button">
                             <img src="../../assets/images/search-icon.png" id="img-search">
                         </button>
-                    </div>
+                    </div> -->
                     <div class="savings-pocket-section">
                         <h2>Kantong Uang</h2>
                         <div class="pocket-container" id="pocket-container">
@@ -210,12 +210,11 @@
                 </div> -->
             </div>
         </div>
-        <div class="footer">
-            <div class="footer-content">
-                <p id="copyright">&copy; <?php echo date("Y");?> SavingsApp, Semua Hak Dilindungi</p>
-            </div>
-        </div>
     </div>
+    <div id="dashboard-footer">
+        <div id="dashboard-footer-content">
+            <p id="copyright">&copy; <?php echo date("Y");?> SavingsApp, Semua Hak Dilindungi</p>
+        </div>
     </div>
     <div class="gradient-overlay" id="gradient-overlay">
         <div class="pocket-modal-container">

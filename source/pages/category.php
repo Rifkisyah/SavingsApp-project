@@ -44,56 +44,51 @@
             <div class="top-nav">
                 <span onclick="toggle_side_nav()">☰</span>
                 <h1>Beranda</h1>
-                <div class="topnav-content" id="topnav-content">
-                    <button class="new-pocket-btn" onclick="open_pocket_modal()">+ Kantong Baru</button>
-                </div>
             </div>
         </div>
         <div class="main">
-            <div class="content">
-                <div class="primary-category-content" id="primary-content">
-                    <div class="pocket-page-category-container">
-                        <h3>Kategori Kantong:</h3>
-                        <div class="category-grid-page">
-                            <button type="button" class="page-category-btn" value="Kantong Umum" onclick="goToCategory(this.value)">
-                                <img src="../../assets/images/general-category-icon.png" class="page-category-img">
-                                <h4>Kantong Umum</h4>
-                                <p>Kantong untuk apapun</p>
-                            </button>
-                            <button type="button" class="page-category-btn" value="Kantong Bisnis" onclick="goToCategory(this.value)">
-                                <img src="../../assets/images/bussines-category-icon.png" class="page-category-img">
-                                <h4>Kantong Bisnis</h4>
-                                <p>Kantong untuk Pelaku Bisnis</p>
-                            </button>
-                            <button type="button" class="page-category-btn" value="Kantong Tabungan" onclick="goToCategory(this.value)">
-                                <img src="../../assets/images/save-money-category-icon.png" class="page-category-img">
-                                <h4>Kantong Tabungan</h4>
-                                <p>Kantong untuk Menyimpan Uang</p>
-                            </button>
-                            <button type="button" class="page-category-btn" value="Kantong Darurat" onclick="goToCategory(this.value)">
-                                <img src="../../assets/images/emergency-category-icon.png" class="page-category-img">
-                                <h4>Kantong Darurat</h4>
-                                <p>Kantong untuk kebutuhan darurat</p>
-                            </button>
-                            <button type="button" class="page-category-btn" value="Kantong Qurban" onclick="goToCategory(this.value)">
-                                <img src="../../assets/images/qurban-category-icon.png" class="page-category-img">
-                                <h4>Kantong Qurban</h4>
-                                <p>Kantong untuk tabungan Qurban</p>
-                            </button>
-                            <button type="button" class="page-category-btn" value="Kantong Jalan-Jalan" onclick="goToCategory(this.value)">
-                                <img src="../../assets/images/traveling-category-icon.png" class="page-category-img">
-                                <h4>Kantong Traveling</h4>
-                                <p>Kantong untuk liburan</p>
-                            </button>
-                        </div>
+            <div class="category-content">
+                <div class="pocket-page-category-container" id="pocket-page-category-container">
+                    <h3>Kategori Kantong:</h3>
+                    <div class="category-grid-page">
+                        <button type="button" class="page-category-btn" value="Kantong Umum" onclick="goToCategory(this.value)">
+                            <img src="../../assets/images/general-category-icon.png" class="page-category-img">
+                            <h4>Kantong Umum</h4>
+                            <p>Kantong untuk apapun</p>
+                        </button>
+                        <button type="button" class="page-category-btn" value="Kantong Bisnis" onclick="goToCategory(this.value)">
+                            <img src="../../assets/images/bussines-category-icon.png" class="page-category-img">
+                            <h4>Kantong Bisnis</h4>
+                            <p>Kantong untuk Pelaku Bisnis</p>
+                        </button>
+                        <button type="button" class="page-category-btn" value="Kantong Tabungan" onclick="goToCategory(this.value)">
+                            <img src="../../assets/images/save-money-category-icon.png" class="page-category-img">
+                            <h4>Kantong Tabungan</h4>
+                            <p>Kantong untuk Menyimpan Uang</p>
+                        </button>
+                        <button type="button" class="page-category-btn" value="Kantong Darurat" onclick="goToCategory(this.value)">
+                            <img src="../../assets/images/emergency-category-icon.png" class="page-category-img">
+                            <h4>Kantong Darurat</h4>
+                            <p>Kantong untuk kebutuhan darurat</p>
+                        </button>
+                        <button type="button" class="page-category-btn" value="Kantong Qurban" onclick="goToCategory(this.value)">
+                            <img src="../../assets/images/qurban-category-icon.png" class="page-category-img">
+                            <h4>Kantong Qurban</h4>
+                            <p>Kantong untuk tabungan Qurban</p>
+                        </button>
+                        <button type="button" class="page-category-btn" value="Kantong Jalan-Jalan" onclick="goToCategory(this.value)">
+                            <img src="../../assets/images/traveling-category-icon.png" class="page-category-img">
+                            <h4>Kantong Traveling</h4>
+                            <p>Kantong untuk liburan</p>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <div class="footer-content">
-                <p id="copyright">&copy; <?php echo date("Y");?> SavingsApp, Semua Hak Dilindungi</p>
-            </div>
+    </div>
+    <div id="dashboard-footer">
+        <div id="dashboard-footer-content">
+            <p id="copyright">&copy; <?php echo date("Y");?> SavingsApp, Semua Hak Dilindungi</p>
         </div>
     </div>
     <div id="modal-confirm-logout" class="modal-overlay">
